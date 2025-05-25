@@ -70,15 +70,15 @@ case class Complex(re: Double, im: Double = 0.0) {
   def magnitudeSquared: Double = (re*re)+(im*im)
   def prettyPrint: String = {
     (re, im) match {
-      case (0, 0) => "0"                  // 0 + 0i → "0"
-      case (0, 1) => "i"             // 0 + 2i → "2i"
-      case (0, -1) => "-i"             // 0 + 2i → "2i"
-      case (0, i) => f"${i}%.3fi"             // 0 + 2i → "2i"
-      case (r, 1) => f"${r}%.3f+i"             // 0 + 2i → "2i"
-      case (r, -1) => f"${r}%.3f-i"             // 0 + 2i → "2i"
-      case (r, 0) => f"${r}%.3f"                // 3 + 0i → "3"
-      case (r, i) if i < 0 => f"$r%.3f-${-i}%.3fi"  // 1 - 2i
-      case (r, i) => f"${r}%.3f+${i}%.3fi"        // 1 + 2i
+      case (0, 0) => "0"                
+      case (0, 1) => "i"             
+      case (0, -1) => "-i"             
+      case (0, i) => f"${i}%.3fi"             
+      case (r, 1) => f"${r}%.3f+i"             
+      case (r, -1) => f"${r}%.3f-i"             
+      case (r, 0) => f"${r}%.3f"               
+      case (r, i) if i < 0 => f"$r%.3f-${-i}%.3fi"  
+      case (r, i) => f"${r}%.3f+${i}%.3fi"       
     }
   }
   override def toString: String = {
