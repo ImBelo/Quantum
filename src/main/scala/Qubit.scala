@@ -1,5 +1,6 @@
 import scala.math.{abs, pow, sqrt}
-case class Qubit (alpha: Complex,beta: Complex) {
+import ImaginaryExtention._
+case class Qubit(alpha: Complex, beta: Complex) {
   def norm: Double = sqrt(alpha.magnitudeSquared + beta.magnitudeSquared)
 
   def isNormalized: Boolean = {
@@ -14,19 +15,23 @@ case class Qubit (alpha: Complex,beta: Complex) {
     )
   }
   override def toString: String = {
-  def formatComplex(c: Complex): String = {
-    (c.re, c.im) match {
-      case (0, 0) => "0"
-      case (r, 0) => f"${c.re}%.3f".replace(",", ".") // Standardize decimal separator
-      case (0, i) =>
-        val imagPart = if (math.abs(c.im) == 1) "" else f"${math.abs(c.im)}%.3f".replace(",", ".")
-        s"${if (c.im < 0) "-" else ""}${imagPart}i"
-      case (r, i) =>
-        val realPart = f"${c.re}%.3f".replace(",", ".")
-        val imagPart =
-          if (math.abs(c.im) == 1) s"${if (c.im < 0) "-" else "+"}i"
-          else f"${if (c.im < 0) "-" else "+"}${math.abs(c.im)}%.3f".replace(",", ".") + "i"
-        s"$realPart$imagPart"
+    def formatDouble(d: Double): String = {
+      val formatted = f"$d%.3f".replace(",", ".")  // Standardize decimal separator
+      if (formatted.endsWith(".000")) formatted.dropRight(4) else formatted
+    }
+    def formatComplex(c: Complex): String = {
+      (c.re, c.im) match {
+        case (0, 0) => "0"
+        case (r, 0) => s"${formatDouble(c.re)}"// Standardize decimal separator
+        case (0, i) =>
+          val imagPart = if (math.abs(c.im) == 1) "" else formatDouble(math.abs(c.im))
+          s"${if (c.im < 0) "-" else ""}${imagPart}i"
+        case (r, i) =>
+          val realPart = formatDouble(c.re)
+          val imagPart =
+            if (math.abs(c.im) == 1) s"${if (c.im < 0) "-" else "+"}i"
+            else s"${if (c.im < 0) "-" else "+"}${formatDouble(math.abs(c.im))}i"
+          s"$realPart$imagPart"
     }
   }
 
@@ -58,15 +63,16 @@ case class Qubit (alpha: Complex,beta: Complex) {
 }
 
 object Qubit {
-  val Zero: Qubit = new Qubit(Complex(1.0), Complex(0.0))
+  val sqr2 = 1/sqrt(2)
+  val Zero: Qubit = new Qubit(1,0)
 
-  val One: Qubit = new Qubit(Complex(0.0), Complex(1.0))
+  val One: Qubit = new Qubit(0+1.i, 1)
 
-  val Plus: Qubit = new Qubit(Complex(1.0 / sqrt(2)), Complex(1.0 / sqrt(2)))
+  val Plus: Qubit = new Qubit(sqr2,sqr2)
 
-  val Minus: Qubit = new Qubit(Complex(1.0 / sqrt(2)), Complex(-1.0 / sqrt(2)))
+  val Minus: Qubit = new Qubit(sqr2,-sqr2)
 
-  val YZero: Qubit = new Qubit(Complex(1.0 / sqrt(2)), Complex(1.0 / sqrt(2)))
+  val YZero: Qubit = new Qubit(sqr2, sqr2)
 
-  val YOne: Qubit = new Qubit(Complex(1.0 / sqrt(2)), Complex(0.0, 1.0 / sqrt(2)))
+  val YOne: Qubit = new Qubit(sqr2, sqr2.i)
 }

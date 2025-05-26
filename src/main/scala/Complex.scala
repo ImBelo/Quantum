@@ -3,7 +3,7 @@ import com.sun.org.apache.xalan.internal.lib.ExsltMath.{atan2, cos, sin}
 import scala.annotation.tailrec
 import scala.math.Numeric
 import scala.math.Numeric.FloatIsFractional.div
-case class Complex(re: Double, im: Double = 0.0) {
+case class Complex(re: Double, im: Double) {
   //Sum of 2 complex number
   def +(other: Complex): Complex =
     Complex(re+ other.re,im+other.im)

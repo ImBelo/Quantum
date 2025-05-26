@@ -17,7 +17,7 @@ case class Ket(amplitudes: Vector[Complex]) extends QuantumState {
   }
 
   // Inner product ⟨φ|ψ⟩
-  def innerProduct(other: Ket): Complex = this.toBra * other
+  def innerProduct(other: Ket): Complex = ??? 
 
   // Normalize the state
   def normalized: Ket = {
