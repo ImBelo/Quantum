@@ -23,6 +23,10 @@ class Ket(val amplitudes: Vector[Complex]) extends QuantumState,Iterable[Complex
     } yield a * b
     new Ket(newAmplitudes)
   }
+  def **(other: Qubit): Ket = {
+    val otherKet = new Ket(other.alpha,other.beta)
+    this**otherKet
+  }
   def **(other: Bra):Matrix = ???
   // Normalize the state
   def normalized: Ket = {
@@ -38,13 +42,18 @@ class Ket(val amplitudes: Vector[Complex]) extends QuantumState,Iterable[Complex
     val terms = amplitudes.zip(basisStates).collect {
       case (amp, state) =>
         val coef = amp match {
+          case Complex(0.0, 0.0) => ""
           case Complex(1.0, 0.0) => ""
           case Complex(-1.0, 0.0) => "-"
           case _ => s"($amp)"
         }
-        s"$coef$state"
+        val end = amp match{
+          case Complex(0.0, 0.0) => ""
+          case _ => state
+        }
+        s"$coef$end"
     }
     if (terms.isEmpty) "|0⟩"
-    else terms.mkString(" + ")
+    else terms.filter(_.nonEmpty).mkString(" + ")
   }
 }

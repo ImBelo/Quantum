@@ -16,8 +16,8 @@ case class Qubit(alpha: Complex, beta: Complex) {
   }
   def **(other: Qubit): Ket = {
     Ket(alpha*other.alpha,alpha*other.beta,beta*other.alpha,beta*other.beta)
-  } 
-  
+  }
+
   override def toString: String = {
     def formatDouble(d: Double): String = {
       val formatted = f"$d%.3f".replace(",", ".")  // Standardize decimal separator
@@ -70,7 +70,7 @@ object Qubit {
   val sqr2 = 1/sqrt(2)
   val Zero: Qubit = new Qubit(1,0)
 
-  val One: Qubit = new Qubit(0+1.i, 1)
+  val One: Qubit = new Qubit(0, 1)
 
   val Plus: Qubit = new Qubit(sqr2,sqr2)
 
