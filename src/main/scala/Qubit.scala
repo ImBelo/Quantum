@@ -14,6 +14,10 @@ case class Qubit(alpha: Complex, beta: Complex) {
       beta/norm
     )
   }
+  def **(other: Qubit): Ket = {
+    Ket(alpha*other.alpha,alpha*other.beta,beta*other.alpha,beta*other.beta)
+  } 
+  
   override def toString: String = {
     def formatDouble(d: Double): String = {
       val formatted = f"$d%.3f".replace(",", ".")  // Standardize decimal separator
