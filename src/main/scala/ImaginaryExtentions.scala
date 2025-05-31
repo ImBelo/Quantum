@@ -1,6 +1,8 @@
+import breeze.math.Complex
+
 import scala.language.implicitConversions
 
-object ImaginaryExtention {
+object ImaginaryExtentions {
   // Convert Double to Real
   implicit def doubleToReal(d: Double): Real = Real(d)
   implicit def doubleToComplex(d: Double): Complex = Complex(d,0.0)

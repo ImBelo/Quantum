@@ -1,16 +1,16 @@
-import ImaginaryExtention.*
-import breeze.linalg.DenseVector
-import breeze.linalg.kron
+import breeze.linalg.{DenseMatrix, DenseVector, kron}
 
 import java.util.Optional
 import scala.language.postfixOps
+import breeze.math.{Complex, Field}
+
 class Ket(val amplitudes: DenseVector[Complex]) extends QuantumState{
   def apply(amplitude: Complex*): Ket = new Ket(DenseVector(amplitude.toArray))
   def apply(amplitude: DenseVector[Complex]): Ket = new Ket(amplitude)
   // Construct from varargs
   def this(amplitudes: Complex*) = this(DenseVector(amplitudes.toArray))
 
-
+  // Construct from varargs
   // Convert to Bra ⟨ψ|
   def toBra: Bra = Bra(amplitudes.map(_.conjugate))
   def *(other:Complex): Ket = {
@@ -37,10 +37,20 @@ class Ket(val amplitudes: DenseVector[Complex]) extends QuantumState{
     new Ket(DenseVector(data))
   }
   def **(other: Qubit): Ket = {
-    val otherKet = new Ket(other.alpha,other.beta)
+    val otherKet = Ket(other.alpha,other.beta)
     this**otherKet
   }
-  def **(other: Bra):Matrix = ???
+  def **(other: Bra):DenseMatrix[Complex] = {
+    val rows = this.dimension
+    val cols = other.dimension
+    val result = DenseMatrix.zeros[Complex](rows, cols)
+
+    for (i <- 0 until rows; j <- 0 until cols) {
+      result(i, j) = this.amplitudes(i) * other.amplitudes(j).conjugate // ⟨ϕ| is the conjugate of |ϕ⟩
+    }
+
+    result
+  }
   // Normalize the state
   def normalized: Ket = {
     val n = this.norm
@@ -68,4 +78,5 @@ class Ket(val amplitudes: DenseVector[Complex]) extends QuantumState{
     if (terms.isEmpty) "|0⟩"
     else terms.filter(_.nonEmpty).mkString(" + ")
   }
+
 }

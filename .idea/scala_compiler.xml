@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <option name="separateProdTestSources" value="true" />
-    <profile name="sbt 1" modules="Quantum" />
+    <profile name="sbt 1" modules="Quantum">
+      <option name="compileOrder" value="ScalaThenJava" />
+      <option name="deprecationWarnings" value="true" />
+      <option name="uncheckedWarnings" value="true" />
+      <option name="featureWarnings" value="true" />
+      <parameters>
+        <parameter value="-Ykind-projector:underscores" />
+        <parameter value="-Xsemanticdb" />
+        <parameter value="-Ycache-plugin-class-loader:last-modified" />
+        <parameter value="-Ycache-macro-class-loader:last-modified" />
+        <parameter value="-Ybackend-parallelism" />
+        <parameter value="4" />
+        <parameter value="-Yretain-trees" />
+        <parameter value="-Yskip-recovery" />
+        <parameter value="-Yno-adapted-args" />
+        <parameter value="-Xdisable-assertions" />
+        <parameter value="-explain" />
+      </parameters>
+    </profile>
     <profile name="sbt 2" modules="Quantum.main,Quantum.test">
       <option name="deprecationWarnings" value="true" />
       <option name="uncheckedWarnings" value="true" />

@@ -1,19 +1,16 @@
-import ImaginaryExtention._
-import breeze.linalg._
+import breeze.linalg.*
+import ImaginaryExtentions.*
+import breeze.math.Complex
+import breeze.numerics.sqrt
 object Main {
    def main(args: Array[String]): Unit = {
-     val a = Qubit.Zero
-     val b = Qubit.One
-     val c = Qubit.Plus
-     val d = Qubit.Minus
-     val e = Qubit(3.0.i,2.0).normalize
-     val av = Qubit.Zero**Qubit.Zero**Qubit.Minus**e
-     println(av)
-     println(a)
-     println(b)
-     println(c)
-     println(d)
-     println(e)
+     val oneover = Complex(1/Math.sqrt(2),0.0)
+     val hadamard = new DenseMatrix[Complex](2, 2, Array(
+        oneover, oneover,
+        oneover, -oneover
+     ))
+     val wa = new BraidOptimizer(hadamard,1e-4)
+     println(wa.optimize())
    }
 
 
