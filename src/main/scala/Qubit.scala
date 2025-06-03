@@ -43,35 +43,35 @@ case class Qubit(alpha: Complex, beta: Complex) {
     }
   }
 
-  def formatTerm(coefficient: Complex, basis: String): String = {
-    coefficient match {
-      case Complex(0, 0) => ""
-      case Complex(1, 0) => s"|$basis⟩"
-      case Complex(-1, 0) => s"-|$basis⟩"
-      case Complex(0, 1) => s"i|$basis⟩"
-      case Complex(0, -1) => s"-i|$basis⟩"
-      case _ => s"${formatComplex(coefficient)}|$basis⟩"
+    def formatTerm(coefficient: Complex, basis: String): String = {
+      coefficient match {
+        case Complex(0, 0) => ""
+        case Complex(1, 0) => s"|$basis⟩"
+        case Complex(-1, 0) => s"-|$basis⟩"
+        case Complex(0, 1) => s"i|$basis⟩"
+        case Complex(0, -1) => s"-i|$basis⟩"
+        case _ => s"${formatComplex(coefficient)}|$basis⟩"
+      }
     }
-  }
 
-  val alphaTerm = formatTerm(alpha, "0")
-  val betaTerm = formatTerm(beta, "1")
+    val alphaTerm = formatTerm(alpha, "0")
+    val betaTerm = formatTerm(beta, "1")
 
-  (alphaTerm, betaTerm) match {
-    case ("", "") => "0"  // Zero state
-    case (a, "") => s"$a"
-    case ("", b) => s"$b"
-    case (a, b) =>
-      val separator = if (beta.real < 0 || (beta.real == 0 && beta.imag < 0)) " - " else " + "
-      val absBetaTerm = if (separator == " - ") formatTerm(beta * -1, "1") else b
-      s"$a$separator$absBetaTerm"
-  }
+    (alphaTerm, betaTerm) match {
+      case ("", "") => "0"  // Zero state
+      case (a, "") => s"$a"
+      case ("", b) => s"$b"
+      case (a, b) =>
+        val separator = if (beta.real < 0 || (beta.real == 0 && beta.imag < 0)) " - " else " + "
+        val absBetaTerm = if (separator == " - ") formatTerm(beta * -1, "1") else b
+        s"$a$separator$absBetaTerm"
+    }
 }
 
 }
 
 object Qubit {
-  val sqr2 = 1/sqrt(2)
+  private val sqr2 = 1/sqrt(2)
   val Zero: Qubit = new Qubit(1.0,0.0)
 
   val One: Qubit = new Qubit(0.0,1.0)
